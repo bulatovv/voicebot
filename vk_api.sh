@@ -27,7 +27,6 @@ vk_api() (
 bots_long_poll() (
     vk_api groups.getLongPollServer group_id="$GROUP_ID" |
         jq -rc '.key,.server,.ts' | (
-
 			read -r key
 			read -r server
 			read -r ts
@@ -47,7 +46,6 @@ bots_long_poll() (
 				esac
 				
 				ts=$(echo "$answ" | jq -rc ".ts // $ts")
-
 			done
 		)
 )
