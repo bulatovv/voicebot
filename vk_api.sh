@@ -34,8 +34,20 @@ bots_long_poll() (
 
 			while true; do
 				answ=$(curl -s "${server}?act=a_check&key=${key}&ts=${ts}&wait=25")
-				ts=$(echo "$answ" | jq -rc '.ts')
-				echo "$answ" | jq -rc '.updates | .[]'
+				failed=$(echo "$answ" | jq -rc '.failed')
+				
+				case "$failed" in
+					null)
+						echo "$answ" | jq -rc '.updates | .[]'
+						;;
+					2 | 3)
+						answ=$(vk_api groups.getLongPollServer group_id="$GROUP_ID")
+						key=$(echo "$answ" | jq -rc '.key')
+						;;
+				esac
+				
+				ts=$(echo "$answ" | jq -rc ".ts // $ts")
+
 			done
 		)
 )
