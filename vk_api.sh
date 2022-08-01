@@ -39,7 +39,7 @@ bots_long_poll() (
 					null)
 						echo "$answ" | jq -rc '.updates | .[]'
 						;;
-					2 | 3)
+					'' | 2 | 3)
 						answ=$(vk_api groups.getLongPollServer group_id="$GROUP_ID")
 						key=$(echo "$answ" | jq -rc '.key')
 						;;
