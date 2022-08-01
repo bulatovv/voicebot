@@ -1,8 +1,15 @@
 # shellcheck shell=sh
 
-pick_random() (
-	rnd=$(od -vAn -N2 -tu2 < /dev/urandom)
-	result=$(("$rnd" % $# + 1))
+RANDSTATE=$(date +%s)
+RANDSTATE=$((RANDSTATE + $$))
+rand() {
+	RANDSTATE=$((RANDSTATE * 1103515245 + 12345))
+	( 
+		result=$(( RANDSTATE / 65536 % 32768 ))
+		echo "${result#-}"
+	)
+}
 
-	eval echo \$$result
+pick_random() (
+	eval echo \$$(($(rand) % $# + 1))
 )
