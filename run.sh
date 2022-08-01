@@ -16,7 +16,6 @@ setup_storage() (
 )
 
 
-
 add_handler voice_handler 
 
 setup_storage && run_bot

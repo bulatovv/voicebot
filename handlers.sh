@@ -2,6 +2,7 @@
 
 . ./core.sh
 . ./filters.sh
+. ./utils.sh
 
 extract_voices() ( 
 	echo "$1" | jq -rc '
@@ -25,12 +26,6 @@ download_voices() (
 	echo "$filenames"
 )
 
-pick_random() (
-	rnd=$(od -vAn -N2 -tu2 < /dev/urandom)
-	result=$(("$rnd" % $# + 1))
-
-	eval echo \$$result
-)
 
 pick_video() (
 	for token in $1; do
